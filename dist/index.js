@@ -74,6 +74,15 @@ const { url } = await startStandaloneServer(server, {
             cryptoCompareApi: new CryptoCompareAPI(),
         }
     }),
-    listen: { port: port }
+    //  listen: { port: port }
 });
 console.log(`🚀  Server ready at: ${url}`);
+// export const graphqlHandler = startServerAndCreateLambdaHandler(server, {
+//   context: async () => ({
+//      // We create new instances of our data sources with each request,
+//      // passing in our server's cache.
+//      dataSources: {
+//       cryptoCompareApi: new CryptoCompareAPI(),
+//      }
+//    }),
+// }); 
