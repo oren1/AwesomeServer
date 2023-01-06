@@ -2,6 +2,8 @@ import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
 import { readFileSync } from 'fs';
 import {CryptoCompareAPI} from "./DataSources/CryptoCompareAPI.js";
+import { startServerAndCreateLambdaHandler } from '@as-integrations/aws-lambda'; 
+
 // A schema is a collection of type definitions (hence "typeDefs")
 // that together define the "shape" of queries that are executed against
 // your data.
@@ -89,7 +91,16 @@ const server = new ApolloServer<ContextValue>({
         cryptoCompareApi: new CryptoCompareAPI(),
        }
      }),
-     listen: { port: port }
+    //  listen: { port: port }
   });
   
   console.log(`🚀  Server ready at: ${url}`);
+  // export const graphqlHandler = startServerAndCreateLambdaHandler(server, {
+  //   context: async () => ({
+  //      // We create new instances of our data sources with each request,
+  //      // passing in our server's cache.
+  //      dataSources: {
+  //       cryptoCompareApi: new CryptoCompareAPI(),
+  //      }
+  //    }),
+  // }); 
