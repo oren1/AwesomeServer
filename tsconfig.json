@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "allowJs": true,
     "rootDirs": ["src"],
     "outDir": "dist",
     "lib": ["es2020"],
