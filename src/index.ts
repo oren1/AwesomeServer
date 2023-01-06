@@ -81,21 +81,9 @@ const server = new ApolloServer<ContextValue>({
   //  1. creates an Express app
   //  2. installs your ApolloServer instance as middleware
   //  3. prepares your app to handle incoming requests
-  const port = Number(process.env.port)  || 3000;
+  // const port = Number(process.env.port)  || 3000;
 
-  const { url } = await startStandaloneServer(server, {
-    context: async () => ({
-       // We create new instances of our data sources with each request,
-       // passing in our server's cache.
-       dataSources: {
-        cryptoCompareApi: new CryptoCompareAPI(),
-       }
-     }),
-    //  listen: { port: port }
-  });
-  
-  console.log(`🚀  Server ready at: ${url}`);
-  // export const graphqlHandler = startServerAndCreateLambdaHandler(server, {
+  // const { url } = await startStandaloneServer(server, {
   //   context: async () => ({
   //      // We create new instances of our data sources with each request,
   //      // passing in our server's cache.
@@ -103,4 +91,15 @@ const server = new ApolloServer<ContextValue>({
   //       cryptoCompareApi: new CryptoCompareAPI(),
   //      }
   //    }),
-  // }); 
+  //   //  listen: { port: port }
+  // });
+  
+  export const graphqlHandler = startServerAndCreateLambdaHandler(server, {
+    context: async () => ({
+      // We create new instances of our data sources with each request,
+      // passing in our server's cache.
+      dataSources: {
+       cryptoCompareApi: new CryptoCompareAPI(),
+      }
+    }),
+  }); 
