@@ -10,6 +10,8 @@ functions:
     # (e.g., if your file is in the root folder use server.graphqlHandler )
     # The format is: <FILENAME>.<HANDLER>
     handler: dist/index.graphqlHandler # highlight-line
+    optimize:
+      includePaths: ['schema.graphql']
     events:
       - httpApi:
           path: /
