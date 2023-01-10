@@ -57,10 +57,10 @@ const typeDefs = `#graphql
   # clients can execute, along with the return type for each. In this
   # case, the "books" query returns an array of zero or more Books (defined above).
   type Query {
-    books: [Book]
-    numberSix: Int!
-    numberSeven: Int!
-    user(id: ID!): User
+    # books: [Book]
+    # numberSix: Int!
+    # numberSeven: Int!
+    # user(id: ID!): User
     listCoins(page: Int!): [Coin]
     listHistory(params: HistoryParams): [Point]
   }
@@ -96,12 +96,12 @@ const books = [
 // This resolver retrieves books from the "books" array above.
 const resolvers = {
     Query: {
-      books: () => books,
-      numberSix: () => 6,
-      numberSeven: () => 7,
-      user(parent, args, context, info) {
-        return users.find((user) => user.id === args.id);
-      },
+      // books: () => books,
+      // numberSix: () => 6,
+      // numberSeven: () => 7,
+      // user(parent, args, context, info) {
+      //   return users.find((user) => user.id === args.id);
+      // },
       listCoins(_, {page}, {dataSources}: ContextValue) {
         return dataSources.cryptoCompareApi.getCoinsList(page)
       },
