@@ -14,26 +14,6 @@ import fs from 'fs';
 
 const typeDefs = `#graphql
   # Comments in GraphQL strings (such as this one) start with the hash (#) symbol.
-
-  type User {
-    id: ID!
-    name: String
-  }
-
-   "This Book type defines the queryable fields for every book in our data source."
-  type Book {
-    """
-    title will be used for the book title
-    """
-    title: String
-    author: String
-  }
-
-  input BookInfo {
-    title: String
-    author: String
-  }
-
   type Coin {
     id: String
     symbol: String
@@ -57,51 +37,17 @@ const typeDefs = `#graphql
   # clients can execute, along with the return type for each. In this
   # case, the "books" query returns an array of zero or more Books (defined above).
   type Query {
-    # books: [Book]
-    # numberSix: Int!
-    # numberSeven: Int!
-    # user(id: ID!): User
     listCoins(page: Int!): [Coin]
     listHistory(params: HistoryParams): [Point]
   }
 
-  type Mutation {
-    addBook(title: String, author: String): Book
-  }
+  type Mutation {}
 `;
-
-const books = [
-    {
-      title: 'The Awakening',
-      author: 'Kate Chopin',
-    },
-    {
-      title: 'City of Glass',
-      author: 'Paul Auster',
-    },
-  ];
-
-  const users = [
-    {
-      id: '1',
-      name: 'Elizabeth Bennet',
-    },
-    {
-      id: '2',
-      name: 'Fitzwilliam Darcy',
-    },
-  ];
 
   // Resolvers define how to fetch the types defined in your schema.
 // This resolver retrieves books from the "books" array above.
 const resolvers = {
     Query: {
-      // books: () => books,
-      // numberSix: () => 6,
-      // numberSeven: () => 7,
-      // user(parent, args, context, info) {
-      //   return users.find((user) => user.id === args.id);
-      // },
       listCoins(_, {page}, {dataSources}: ContextValue) {
         return dataSources.cryptoCompareApi.getCoinsList(page)
       },
@@ -111,16 +57,7 @@ const resolvers = {
       }
     },
     Mutation: {
-      addBook: (_, args) => {
-        const book = {
-          title: args.title, 
-          author: args.author
-        }
-        
-        books.push(book);
 
-        return book
-      }
     } 
   };
 
@@ -152,12 +89,13 @@ const server = new ApolloServer<ContextValue>({
         cryptoCompareApi: new CryptoCompareAPI(),
        }
      }),
-    //  listen: { port: port }
+     listen: { port: port }
   });
-  
   console.log(`🚀  Server ready at: ${url}`);
+
+
   // export const graphqlHandler = startServerAndCreateLambdaHandler(server, {
-  //   context: async () => ({
+  //       context: async () => ({
   //      // We create new instances of our data sources with each request,
   //      // passing in our server's cache.
   //      dataSources: {
@@ -165,12 +103,3 @@ const server = new ApolloServer<ContextValue>({
   //      }
   //    }),
   // }); 
-  export const graphqlHandler = startServerAndCreateLambdaHandler(server, {
-        context: async () => ({
-       // We create new instances of our data sources with each request,
-       // passing in our server's cache.
-       dataSources: {
-        cryptoCompareApi: new CryptoCompareAPI(),
-       }
-     }),
-  }); 
